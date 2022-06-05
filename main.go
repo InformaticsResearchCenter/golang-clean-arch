@@ -18,7 +18,7 @@ func main() {
 	router.GET("/api/v1/", WeOnEnv)
 
 	server := http.Server{
-		Addr:    "0.0.0.0:8080",
+		Addr:    ":8080",
 		Handler: router,
 	}
 
