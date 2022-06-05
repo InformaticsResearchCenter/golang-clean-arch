@@ -1,14 +1,12 @@
 package main
 
 import (
-	nice "github.com/ekyoung/gin-nice-recovery"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	_ "github.com/go-sql-driver/mysql"
 	"iteung-api/config"
 	"iteung-api/controller"
-	"iteung-api/exception"
 	"iteung-api/helper"
 	"iteung-api/repository"
 	"iteung-api/service"
@@ -18,7 +16,7 @@ func main() {
 	r := gin.Default()
 
 	r.Use(gin.Logger())
-	r.Use(nice.Recovery(exception.ErrorHandler))
+	//r.Use(nice.Recovery(exception.ErrorHandler))
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE"},
