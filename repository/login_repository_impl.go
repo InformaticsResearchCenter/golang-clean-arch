@@ -30,7 +30,7 @@ func (repository *LoginRepositoryImpl) FindByPhoneNumberAndPassword(c *gin.Conte
 	} else {
 		SQL := "select Login, Nama, Handphone, Email from simak_mst_dosen where Handphone = ? and Password = SUBSTR(MD5(MD5(?)), 1, 10)"
 
-		rows, err := tx.QueryContext(c, SQL, phoneNumber)
+		rows, err := tx.QueryContext(c, SQL, phoneNumber, password)
 		helper.PanicIfError(err)
 
 		defer rows.Close()
