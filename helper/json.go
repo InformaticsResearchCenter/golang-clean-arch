@@ -7,7 +7,7 @@ import (
 func ReadFromRequestBody(c *gin.Context, result interface{}) {
 	//decoder := json.NewDecoder(c.Request.Body)
 	//err := decoder.Decode(result)
-	err := c.Bind(result)
+	err := c.BindQuery(result)
 	PanicIfError(err)
 }
 
