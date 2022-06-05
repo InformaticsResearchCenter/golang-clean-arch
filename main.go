@@ -2,26 +2,27 @@ package main
 
 import (
 	"fmt"
-	"github.com/julienschmidt/httprouter"
+	"github.com/gin-gonic/gin"
 	"iteung-api/exception"
 	"net/http"
 	"os"
 )
 
-func WeOnEnv(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	fmt.Fprintf(w, "we are on %s env", os.Getenv("APP_ENV"))
+type MessageResponse struct {
+	Message string `json:"message"`
+}
+
+func WebOnEnv(c *gin.Context) {
+	messageResponse := MessageResponse{}
+	messageResponse.Message = fmt.Sprintf("we are on %s env", os.Getenv("APP_ENV"))
+	c.JSON(http.StatusOK, messageResponse)
 }
 
 func main() {
-	router := httprouter.New()
+	r := gin.Default()
 
-	router.GET("/api/v1/", WeOnEnv)
+	r.GET("/api/v1", WebOnEnv)
 
-	server := http.Server{
-		Addr:    ":8080",
-		Handler: router,
-	}
-
-	err := server.ListenAndServe()
+	err := r.Run()
 	exception.PanicIfError(err)
 }
