@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"github.com/gin-gonic/gin"
-	"iteung-api/exception"
+	"iteung-api/helper"
 	"iteung-api/model"
 )
 
@@ -18,26 +18,26 @@ func (repository *LoginRepositoryImpl) FindByPhoneNumberAndPassword(c *gin.Conte
 	SQL := "select Login, Nama, Handphone, Email from simak_mst_mahasiswa where Handphone = ? and Password = SUBSTR(MD5(MD5(?)), 1, 10)"
 
 	rows, err := tx.QueryContext(c, SQL, phoneNumber)
-	exception.PanicIfError(err)
+	helper.PanicIfError(err)
 
 	defer rows.Close()
 
 	userInfo := model.UserInfo{}
 	if rows.Next() {
 		err := rows.Scan(&userInfo)
-		exception.PanicIfError(err)
+		helper.PanicIfError(err)
 		return userInfo, nil
 	} else {
 		SQL := "select Login, Nama, Handphone, Email from simak_mst_dosen where Handphone = ? and Password = SUBSTR(MD5(MD5(?)), 1, 10)"
 
 		rows, err := tx.QueryContext(c, SQL, phoneNumber)
-		exception.PanicIfError(err)
+		helper.PanicIfError(err)
 
 		defer rows.Close()
 
 		if rows.Next() {
 			err := rows.Scan(&userInfo)
-			exception.PanicIfError(err)
+			helper.PanicIfError(err)
 			return userInfo, nil
 		} else {
 			return userInfo, errors.New("Password Salah.")
@@ -49,26 +49,26 @@ func (repository *LoginRepositoryImpl) FindByPhoneNumber(c *gin.Context, tx *sql
 	SQL := "select Login, Nama, Handphone, Email from simak_mst_mahasiswa where Handphone = ?"
 
 	rows, err := tx.QueryContext(c, SQL, phoneNumber)
-	exception.PanicIfError(err)
+	helper.PanicIfError(err)
 
 	defer rows.Close()
 
 	userInfo := model.UserInfo{}
 	if rows.Next() {
 		err := rows.Scan(&userInfo)
-		exception.PanicIfError(err)
+		helper.PanicIfError(err)
 		return userInfo, nil
 	} else {
 		SQL := "select Login, Nama, Handphone, Email from simak_mst_dosen where Handphone = ?"
 
 		rows, err := tx.QueryContext(c, SQL, phoneNumber)
-		exception.PanicIfError(err)
+		helper.PanicIfError(err)
 
 		defer rows.Close()
 
 		if rows.Next() {
 			err := rows.Scan(&userInfo)
-			exception.PanicIfError(err)
+			helper.PanicIfError(err)
 			return userInfo, nil
 		} else {
 			return userInfo, errors.New("Nomor Handphone Tidak Ditemukan.")

@@ -26,10 +26,10 @@ func NewLoginService(loginRepository repository.LoginRepository, DB *sql.DB, val
 
 func (service *LoginServiceImpl) LoginAuthWithPhoneNumberAndPassword(c *gin.Context, request api.LoginRequest) api.LoginResponse {
 	err := service.Validate.Struct(request)
-	exception.PanicIfError(err)
+	helper.PanicIfError(err)
 
 	tx, err := service.DB.Begin()
-	exception.PanicIfError(err)
+	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
 
 	_, err = service.LoginRepository.FindByPhoneNumber(c, tx, request.PhoneNumber)

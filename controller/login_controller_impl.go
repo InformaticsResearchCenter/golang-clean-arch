@@ -2,7 +2,10 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"iteung-api/api"
+	"iteung-api/helper"
 	"iteung-api/service"
+	"net/http"
 )
 
 type LoginConrollerImpl struct {
@@ -20,6 +23,16 @@ func (controller *LoginConrollerImpl) Route(r *gin.Engine) {
 }
 
 func (contoller *LoginConrollerImpl) LoginAuth(c *gin.Context) {
-	//TODO implement me
-	panic("implement me")
+	loginRequest := api.LoginRequest{}
+	helper.ReadFromRequestBody(c, loginRequest)
+
+	loginResponse := contoller.LoginService.LoginAuthWithPhoneNumberAndPassword(c, loginRequest)
+	apiResponse := api.ResponseAPI{
+		Code:    http.StatusOK,
+		Success: true,
+		Status:  "Berhasil Login.",
+		Data:    loginResponse,
+	}
+
+	helper.WriteToResponseBody(c, http.StatusOK, apiResponse)
 }

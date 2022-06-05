@@ -3,7 +3,7 @@ package config
 import (
 	"database/sql"
 	"fmt"
-	"iteung-api/exception"
+	"iteung-api/helper"
 	"os"
 	"strconv"
 	"time"
@@ -20,7 +20,7 @@ func NewSiapDB() *sql.DB {
 	)
 
 	db, err := sql.Open("mysql", dataSourceName)
-	exception.PanicIfError(err)
+	helper.PanicIfError(err)
 
 	maxIdleConnection, _ := strconv.Atoi(os.Getenv("MAX_IDLE_CONN"))
 	maxOpenConnection, _ := strconv.Atoi(os.Getenv("MAX_OPEN_CONN"))
@@ -47,7 +47,7 @@ func NewITeungDB() *sql.DB {
 	)
 
 	db, err := sql.Open("mysql", dataSourceName)
-	exception.PanicIfError(err)
+	helper.PanicIfError(err)
 
 	maxIdleConnection, _ := strconv.Atoi(os.Getenv("MAX_IDLE_CONN"))
 	maxOpenConnection, _ := strconv.Atoi(os.Getenv("MAX_OPEN_CONN"))
