@@ -2,6 +2,7 @@ package exception
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"iteung-api/api"
 	"iteung-api/helper"
 	"net/http"
@@ -13,6 +14,10 @@ func ErrorHandler(c *gin.Context, err interface{}) {
 	}
 
 	if loginError(c, err) {
+		return
+	}
+
+	if validationError(c, err) {
 		return
 	}
 
@@ -57,4 +62,21 @@ func internalServerError(c *gin.Context, err interface{}) {
 		Data:    err,
 	}
 	helper.WriteToResponseBody(c, http.StatusInternalServerError, apiResponse)
+}
+
+func validationError(c *gin.Context, err interface{}) bool {
+	exception, ok := err.(validator.ValidationErrors)
+	if ok {
+		apiResponse := api.ResponseAPI{
+			Code:    http.StatusBadRequest,
+			Success: false,
+			Status:  "BAD REQUEST",
+			Data:    exception.Error(),
+		}
+
+		helper.WriteToResponseBody(c, http.StatusBadRequest, apiResponse)
+		return true
+	} else {
+		return false
+	}
 }
