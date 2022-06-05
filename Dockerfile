@@ -4,7 +4,7 @@ WORKDIR /go/src/app
 
 COPY . .
 
-RUN go mod download && go build -o app
+RUN go build -o app
 
 FROM debian:buster-slim
 
