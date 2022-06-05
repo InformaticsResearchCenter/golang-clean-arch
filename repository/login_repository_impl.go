@@ -17,7 +17,7 @@ func NewLoginRepository() LoginRepository {
 func (repository *LoginRepositoryImpl) FindByPhoneNumberAndPassword(c *gin.Context, tx *sql.Tx, phoneNumber string, password string) (model.UserInfo, error) {
 	SQL := "select Login, Nama, Handphone, Email from simak_mst_mahasiswa where Handphone = ? and Password = SUBSTR(MD5(MD5(?)), 1, 10)"
 
-	rows, err := tx.QueryContext(c, SQL, phoneNumber)
+	rows, err := tx.QueryContext(c, SQL, phoneNumber, password)
 	helper.PanicIfError(err)
 
 	defer rows.Close()
