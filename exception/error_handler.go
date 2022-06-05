@@ -21,7 +21,7 @@ func ErrorHandler(c *gin.Context, err interface{}) {
 		return
 	}
 
-	internalServerError(c, err)
+	//internalServerError(c, err)
 }
 
 func notFoundError(c *gin.Context, err interface{}) bool {
