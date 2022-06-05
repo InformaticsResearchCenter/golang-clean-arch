@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  iteung-android-api-golang-prod:
+    environment:
+      - TZ=Asia/Jakarta
+      - APP_ENV=prod
+    image: $CI_REGISTRY_IMAGE:latest
+    container_name: iteung-android-api-golang-prod
+    restart: unless-stopped
+    expose:
+      - "8080"
+    networks:
+      iteungwebnet:
+        ipv4_address: 172.18.0.58
+
+networks:
+  iteungwebnet:
+    external:
+      name: iteungwebnet
