@@ -25,7 +25,7 @@ func (controller *LoginConrollerImpl) Route(r *gin.Engine) {
 
 func (contoller *LoginConrollerImpl) LoginAuth(c *gin.Context) {
 	loginRequest := api.LoginRequest{}
-	helper.ReadFromRequestBody(c, loginRequest)
+	helper.ReadFromRequestBody(c, &loginRequest)
 
 	fmt.Println(loginRequest.PhoneNumber)
 	fmt.Println(loginRequest.Password)

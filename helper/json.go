@@ -5,7 +5,7 @@ import (
 )
 
 func ReadFromRequestBody(c *gin.Context, result interface{}) {
-	err := c.ShouldBindJSON(&result)
+	err := c.BindJSON(result)
 	PanicIfError(err)
 }
 
