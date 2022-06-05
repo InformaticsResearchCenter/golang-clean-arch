@@ -24,7 +24,7 @@ func (repository *LoginRepositoryImpl) FindByPhoneNumberAndPassword(c *gin.Conte
 
 	userInfo := model.UserInfo{}
 	if rows.Next() {
-		err := rows.Scan(&userInfo)
+		err := rows.Scan(&userInfo.UserId, &userInfo.UserName, &userInfo.PhoneNumber, &userInfo.EmailAddress)
 		helper.PanicIfError(err)
 		return userInfo, nil
 	} else {
@@ -67,7 +67,7 @@ func (repository *LoginRepositoryImpl) FindByPhoneNumber(c *gin.Context, tx *sql
 		defer rows.Close()
 
 		if rows.Next() {
-			err := rows.Scan(&userInfo)
+			err := rows.Scan(&userInfo.UserId, &userInfo.UserName, &userInfo.PhoneNumber, &userInfo.EmailAddress)
 			helper.PanicIfError(err)
 			return userInfo, nil
 		} else {
