@@ -1,27 +1,37 @@
 package main
 
 import (
-	"fmt"
+	nice "github.com/ekyoung/gin-nice-recovery"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
+	"iteung-api/config"
+	"iteung-api/controller"
 	"iteung-api/exception"
-	"net/http"
-	"os"
+	"iteung-api/repository"
+	"iteung-api/service"
 )
-
-type MessageResponse struct {
-	Message string `json:"message"`
-}
-
-func WebOnEnv(c *gin.Context) {
-	messageResponse := MessageResponse{}
-	messageResponse.Message = fmt.Sprintf("we are on %s env", os.Getenv("APP_ENV"))
-	c.JSON(http.StatusOK, messageResponse)
-}
 
 func main() {
 	r := gin.Default()
 
-	r.GET("/api/v1", WebOnEnv)
+	r.Use(gin.Logger())
+	r.Use(nice.Recovery(exception.ErrorHandler))
+
+	// Setup Config
+	siapDB := config.NewSiapDB()
+	validate := validator.New()
+
+	// Setup Repository
+	loginRepository := repository.NewLoginRepository()
+
+	// Setup Service
+	loginService := service.NewLoginService(loginRepository, siapDB, validate)
+
+	// Setup Controller
+	loginController := controller.NewLoginController(loginService)
+
+	// Setup Route
+	loginController.Route(r)
 
 	err := r.Run()
 	exception.PanicIfError(err)

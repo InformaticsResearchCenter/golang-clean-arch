@@ -2,19 +2,19 @@ package helper
 
 import (
 	"encoding/json"
+	"github.com/gin-gonic/gin"
 	"iteung-api/exception"
-	"net/http"
 )
 
-func ReadFromRequestBody(request *http.Request, result interface{}) {
-	decoder := json.NewDecoder(request.Body)
+func ReadFromRequestBody(c *gin.Context, result interface{}) {
+	decoder := json.NewDecoder(c.Request.Body)
 	err := decoder.Decode(result)
 	exception.PanicIfError(err)
 }
 
-func WriteToResponseBody(writer http.ResponseWriter, result interface{}) {
-	writer.Header().Add("Content-Type", "application/json")
-	encoder := json.NewEncoder(writer)
-	err := encoder.Encode(result)
-	exception.PanicIfError(err)
+func WriteToResponseBody(c *gin.Context, httpCode int, result interface{}) {
+	c.JSON(
+		httpCode,
+		result,
+	)
 }
