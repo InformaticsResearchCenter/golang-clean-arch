@@ -2,6 +2,7 @@ package main
 
 import (
 	nice "github.com/ekyoung/gin-nice-recovery"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	_ "github.com/go-sql-driver/mysql"
@@ -18,6 +19,11 @@ func main() {
 
 	r.Use(gin.Logger())
 	r.Use(nice.Recovery(exception.ErrorHandler))
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"POST", "PUT", "PATCH", "DELETE"},
+		AllowHeaders: []string{"Content-Type,access-control-allow-origin, access-control-allow-headers"},
+	}))
 
 	// Setup Config
 	siapDB := config.NewSiapDB()
