@@ -8,6 +8,7 @@ services:
       - DB_PASSWORD_SIAP=rollyganteng
       - DB_HOST_SIAP=10.14.200.17
       - DB_PORT_SIAP=3306
+      - DB_NAME_SIAP=siap
     image: $CI_REGISTRY_IMAGE:latest
     container_name: iteung-android-api-golang-dev
     restart: unless-stopped
