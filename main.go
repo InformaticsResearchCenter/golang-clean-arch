@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/julienschmidt/httprouter"
-	"iteung-api/helper"
+	"iteung-api/exception"
 	"net/http"
 	"os"
 )
@@ -18,10 +18,10 @@ func main() {
 	router.GET("/api/v1/", WeOnEnv)
 
 	server := http.Server{
-		Addr:    "0.0.0.0:8080",
+		Addr:    "localhost:8080",
 		Handler: router,
 	}
 
 	err := server.ListenAndServe()
-	helper.PanicIfError(err)
+	exception.PanicIfError(err)
 }
