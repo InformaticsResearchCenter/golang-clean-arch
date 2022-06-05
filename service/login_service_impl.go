@@ -2,6 +2,7 @@ package service
 
 import (
 	"database/sql"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"iteung-api/api"
@@ -31,6 +32,8 @@ func (service *LoginServiceImpl) LoginAuthWithPhoneNumberAndPassword(c *gin.Cont
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
+
+	spew.Dump(request)
 
 	_, err = service.LoginRepository.FindByPhoneNumber(c, tx, request.PhoneNumber)
 	if err != nil {
