@@ -13,10 +13,6 @@ func ErrorHandler(c *gin.Context, err interface{}) {
 		return
 	}
 
-	if loginError(c, err) {
-		return
-	}
-
 	if validationError(c, err) {
 		return
 	}
@@ -33,21 +29,6 @@ func notFoundError(c *gin.Context, err interface{}) bool {
 			Status:  exception.Error,
 		}
 		helper.WriteToResponseBody(c, http.StatusNotFound, apiResponse)
-		return true
-	} else {
-		return false
-	}
-}
-
-func loginError(c *gin.Context, err interface{}) bool {
-	exception, ok := err.(LoginError)
-	if ok {
-		apiResponse := api.ResponseAPI{
-			Code:    http.StatusUnauthorized,
-			Success: false,
-			Status:  exception.Error,
-		}
-		helper.WriteToResponseBody(c, http.StatusUnauthorized, apiResponse)
 		return true
 	} else {
 		return false
