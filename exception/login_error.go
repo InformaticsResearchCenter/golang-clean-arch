@@ -7,11 +7,16 @@ import (
 	"net/http"
 )
 
-func LoginError(c *gin.Context, error string) {
+type LoginError struct {
+	Error string
+}
+
+func NewLoginError(c *gin.Context, error string) LoginError {
 	apiResponse := api.ResponseAPI{
 		Code:    http.StatusUnauthorized,
 		Success: false,
 		Status:  error,
 	}
 	helper.WriteToResponseBody(c, http.StatusUnauthorized, apiResponse)
+	return LoginError{Error: error}
 }

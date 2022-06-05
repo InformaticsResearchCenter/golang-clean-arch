@@ -37,12 +37,12 @@ func (service *LoginServiceImpl) LoginAuthWithPhoneNumberAndPassword(c *gin.Cont
 
 	_, err = service.LoginRepository.FindByPhoneNumber(c, tx, request.PhoneNumber)
 	if err != nil {
-		panic(exception.NewLoginError(err.Error()))
+		panic(exception.NewLoginError(c, err.Error()))
 	}
 
 	userInfo, err := service.LoginRepository.FindByPhoneNumberAndPassword(c, tx, request.PhoneNumber, request.Password)
 	if err != nil {
-		panic(exception.NewLoginError(err.Error()))
+		panic(exception.NewLoginError(c, err.Error()))
 	}
 
 	return api.ToLoginResponse(userInfo)
