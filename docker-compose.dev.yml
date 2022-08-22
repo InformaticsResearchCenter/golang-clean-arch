@@ -4,8 +4,8 @@ services:
     environment:
       - TZ=Asia/Jakarta
       - APP_ENV=dev
-      - DB_USERNAME_SIAP=irc
-      - DB_PASSWORD_SIAP=crot
+      - DB_USERNAME_SIAP=user
+      - DB_PASSWORD_SIAP=user
       - DB_HOST_SIAP=localhost
       - DB_PORT_SIAP=3306
       - DB_NAME_SIAP=siap
